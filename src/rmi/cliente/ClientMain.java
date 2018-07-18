@@ -18,10 +18,12 @@ public class ClientMain {
 	private static String listaSubpecasAtual;
 
 	public ClientMain() {
+		
 		ClientMain.listaSubpecasAtual = "";
 	}
 	
     public static void main(String[] args) throws RemoteException, NotBoundException {
+    	
         Registry registry = LocateRegistry.getRegistry("localhost", Registry.REGISTRY_PORT);    
         
         Part part = (Part) registry.lookup("part");
@@ -48,31 +50,50 @@ public class ClientMain {
             comando = input.nextLine();
             
             if (comando.contains("bind")) {
+            	
                 PartImpl partImpl = new PartImpl();
+                
                 Part Part = (Part) UnicastRemoteObject.exportObject(partImpl, 0);
-            	comandoParam = comando.replace("bind", "").replaceAll("\\s+","");
+            	
+                comandoParam = comando.replace("bind", "").replaceAll("\\s+","");
                 registry.rebind("comandoParam", Part);
+                
             } else if (comando.contains("listp")) {
+            	
             	listp(repositorioAtual);
+            	
             } else if (comando.contains("getp")) {
+            	
             	comandoParam = comando.replace("getp", "").replaceAll("\\s+","");
             	getp(comandoParam, repositorioAtual);
+           
             } else if (comando.contains("showp")) {
+            
             	comandoParam = comando.replace("showp", "").replaceAll("\\s+","");
             	showp(comandoParam, pecaAtual);
+            
             } else if (comando.contains("clearlist")) {
+            
             	comandoParam = comando.replace("clearlist", "").replaceAll("\\s+","");
             	clearlist(comandoParam, listaSubpecasAtual);
+            
             } else if (comando.contains("addsubpart")) {
+            
             	comandoParam = comando.replace("addsubpart", "").replaceAll("\\s+","");
             	addsubpart(comandoParam, listaSubpecasAtual, pecaAtual);
+            
             } else if (comando.contains("addp")) {
+            
             	comandoParam = comando.replace("addp", "").replaceAll("\\s+","");
             	addp(comandoParam, repositorioAtual, listaSubpecasAtual);
+           
             } else if (comando.contains("quit")) {
+            
             	parar = true;
             	break;
+           
             } else {
+            
             	System.out.println("Comando inválido!");
             }
             
